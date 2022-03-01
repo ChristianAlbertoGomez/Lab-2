@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
 #include <stdlib.h> // malloc & free
 #include <stdint.h> // use guaranteed 64-bit integers
@@ -23,7 +24,18 @@ void init_regs(){
 		reg[i] = i;
 }
 
-
+/**
+ * Prints all 32 registers in column-format
+ */
+void print_regs(){
+    int col_size = 10;
+    for(int i = 0; i < 8; i++){
+        printf("X%02i:%.*lld", i, col_size, (long long int) reg[i]);
+        printf(" X%02i:%.*lld", i+8, col_size, (long long int) reg[i+8]);
+        printf(" X%02i:%.*lld", i+16, col_size, (long long int) reg[i+16]);
+        printf(" X%02i:%.*lld\n", i+24, col_size, (long long int) reg[i+24]);
+    }
+}
 
 /**
  * Fill out this function and use it to read interpret user input to execute RV64 instructions.
@@ -31,7 +43,87 @@ void init_regs(){
  * as a parameter to this function.
  */
 bool interpret(char* instr){
-	return true;
+  char delimeters[] = {"ADD,X ADDI"};
+  char command[strlength(instr)];
+
+  int i;
+  for(i=0;i<strlength(instr);i++){
+    command[i] = instr[i];
+  }
+
+
+  char* token = strtok(command,delimeters);
+  long int rs1;
+  long int rs2;
+  char* mem_file = "mem.txt";
+
+  if(findCommand(instr)==1){
+     printf("This is ADD instruction: \n");
+
+     token = strtok(NULL,delimeters);
+     rs1 = converterAtoi(token);
+
+     token = strtok(NULL,delimeters);
+     rs2 = converterAtoi(token);
+
+     long int total = rs1+rs2;
+     printf("Total of sum is:%ld \n",total);
+
+   }else if(findCommand(instr)==2){
+     printf("This is ADDI instructions \n");
+
+     token = strtok(NULL,delimeters);
+     rs1 = converterAtoi(token);
+
+     token = strtok(NULL,delimeters);
+     rs2 = converterAtoi(token);
+
+     long int total = rs1+rs2;
+     printf("Total of sum is:%ld \n",total);
+
+   }else{
+     printf("Nothing \n");
+   }
+}
+
+int converterAtoi(char* command){
+
+ long int number = atoi(command);
+
+ return number;
+}
+
+/*EXTRA METHOD JUST TO CHECK*/
+int findCommand(char* command){
+
+     char delimeter = ',';
+     char** temp_tokenizer = tokenize(command,delimeter);
+
+     while(*temp_tokenizer){
+      if(compareCommand("ADD",*temp_tokenizer)==1){
+        return 1;
+      }else if(compareCommand("ADDI",*temp_tokenizer)==1){
+        return 2;
+      }else{
+        return 0;
+      }
+      temp_tokenizer++;
+     }
+}
+
+int compareCommand(char* command,char* inputUser){
+   int i;
+
+   for(i=0;command[i]!='\0'&&inputUser[i]!='\0';i++);
+     if(command[i]<inputUser[i]){
+       return 0;
+     }
+     else if(command[i]>inputUser[i]){
+       return 0;
+     }
+     else{
+       return 1;
+     }
 }
 
 
@@ -65,6 +157,26 @@ int main(){
 
 	// Below is a sample program to a write-read. Overwrite this with your own code.
 	write_read_demo();
+
+        print_regs();
+
+        //THIS IS MY PART
+        int maxLength = 100;
+        char command[maxLength];
+        char delimeter;
+
+        printf("Please enter a command: \n");
+        fgets(command,maxLength,stdin);
+
+        printf("Please enter your delimeter: \n");
+        delimeter = getchar();
+
+        char** temp_tokenize =  tokenize(command,delimeter);
+        print_all_tokens(temp_tokenize);
+
+        interpret(command);
+
+
 
 	return 0;
 }

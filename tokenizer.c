@@ -1,3 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#define MAX_LENGTH 100
+
+bool delim_character(char c,char delim);
+bool non_delim_character(char c, char delim);
+int strlength(char *words);
+char* word_start(char *str,char delimeter);
+char* end_word(char *str,char delimeter);
+int count_tokens(char* str,char delim);
+char *copy_str(char *inStr, short len, char delim);
+char** tokenize(char* str,char delim);
+void print_all_tokens(char** tokens);
+
 /*
   This method will help us to know the length of string words.
 */
