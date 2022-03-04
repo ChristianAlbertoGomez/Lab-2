@@ -115,7 +115,6 @@ bool interpret(char* instr){
 
      //just checking if the sum is correct.
      printf("Total of sum is:%ld \n",total);
-     print_regs();
 
      return true;
 
@@ -133,7 +132,7 @@ bool interpret(char* instr){
      reg[rd] =  total;//store the total in reg[rd]
 
      printf("Total of sum is:%ld \n",total);
-     print_regs();
+
      return true;
 
    }else if(findCommand(instr)==3){
@@ -157,7 +156,6 @@ bool interpret(char* instr){
      address = base+offset; //We sum them to get the address.
      reg[rd] = read_address(address,file_name);//Now we are ready to LW.
 
-     print_regs();
      return true;
 
    }else if(findCommand(instr)==4){
@@ -183,7 +181,6 @@ bool interpret(char* instr){
      address = base+offset;//Address = 6+32 = 38.
      write_address(rd,address,file_name);//Store the word.
 
-     print_regs();
      return true;
 
    }else{
