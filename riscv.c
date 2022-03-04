@@ -366,7 +366,6 @@ int main(){
 
         print_regs();
 
-  /*
     //TA'S CODE
     // Below is a sample program to a write-read. Overwrite this with your own code.
     //write_read_demo();
@@ -388,9 +387,11 @@ int main(){
     }
 
     printf("Good bye!\n");
-   */
 
-        //THIS IS MY PART
+      /*
+
+        Here I was testing my code.
+
         int maxLength = 100;
         char command[maxLength];
         char delimeter;
@@ -406,5 +407,6 @@ int main(){
 
         interpret(command);
 
+          */
 	return 0;
 }
